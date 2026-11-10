@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en" manifest="cache.manifest">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <meta name="theme-color" content="#050913">
+  <title>LOADING PRO | Smart PS4 Firmware Host</title>
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="stylesheet" href="lp-interface.css">
+</head>
+<body>
+<div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+<div class="app">
+  <header class="topbar">
+    <a class="identity" href="index.html" aria-label="Loading Pro home">
+      <span class="symbol">LP<span class="symbol-dot"></span></span>
+      <span class="logo-text"><span>LOADING</span><strong>PRO</strong><small>PS4 EXPLOIT HOST</small></span>
+    </a>
+    <div class="topbar-end"><span class="topline">SMART FIRMWARE ROUTING</span><span class="top-dot"></span><span class="top-mini">v1.0</span></div>
+  </header>
+  <main>
+    <div class="heading-meta"><span class="hairline"></span> <span>LOADING PRO / SYSTEM CONSOLE</span></div>
+    <div class="columns">
+      <section class="primary">
+        <span class="micro">PS4 MULTI-FIRMWARE HOST <span class="accent-line"></span> AUTO DETECT</span>
+        <h1>YOUR FIRMWARE.<br><span>ONE SMART HOST.</span></h1>
+        <p class="intro">Connect through your PlayStation 4 browser. LOADING PRO identifies your system firmware and selects the matching host module automatically.</p>
+        <div class="machine" aria-live="polite">
+          <div class="machine-title"><span class="machine-dot"></span> CONSOLE INFORMATION <span class="machine-live" id="detect-caption">DETECTING</span></div>
+          <div class="metrics">
+            <div class="metric"><small>DEVICE</small><strong id="device">Checking...</strong></div>
+            <div class="metric major"><small>FIRMWARE VERSION</small><strong id="firmware">--.--</strong></div>
+            <div class="metric"><small>COMPATIBILITY</small><strong class="compat" id="compatibility">CHECKING</strong></div>
+          </div>
+          <div class="matched"><span>SELECTED HOST</span><strong id="selected-host">Waiting for firmware...</strong></div>
+        </div>
+        <button class="launch" id="launch" type="button" disabled><span class="launch-icon">✕</span><span id="launch-label">DETECTING FIRMWARE</span><span class="launch-arrow">›</span></button>
+        <div class="notice" id="launch-note">Open this page in your PS4 browser to enable automatic firmware detection.</div>
+      </section>
+      <aside class="secondary">
+        <div class="side-header"><span class="pulse"></span> SYSTEM OVERVIEW</div>
+        <div class="side-visual"><div class="ring ring-outer"><div class="ring ring-inner"><span>LP</span></div></div><span class="visual-label">READY FOR DETECTION</span></div>
+        <div class="side-row"><span>ENGINE</span><strong>FIRMWARE ROUTER</strong></div>
+        <div class="side-row"><span>PLATFORM</span><strong>PLAYSTATION 4</strong></div>
+        <div class="side-row"><span>INTERFACE CACHE</span><strong id="cache-state">CHECKING</strong></div>
+        <div class="disclaimer">Offline status here refers to the interface only. Each firmware module manages its own exploit files and cache.</div>
+      </aside>
+    </div>
+    <section class="compat-section" id="routes">
+      <div class="section-head"><div><span class="micro">MANUAL ACCESS</span><h2>AVAILABLE HOST MODULES</h2></div><span class="section-note">AUTO-SELECTED ON PS4 · MANUAL LINKS BELOW</span></div>
+      <div class="routes">
+        <a class="route-card" id="route-legacy" href="6/index.html"><div class="card-head"><span class="chip">01 / LEGACY</span><span class="card-arrow">↗</span></div><div class="route-number">06 <span>—</span> 11</div><h3>CLASSIC HOST</h3><p>Firmware 6.xx through 11.02, where supported by the included source files.</p><span class="route-link">OPEN LEGACY HOST ›</span></a>
+        <a class="route-card" id="route-modern" href="new/index.html"><div class="card-head"><span class="chip">02 / MODERN</span><span class="card-arrow">↗</span></div><div class="route-number">11.50 <span>—</span> 13.52</div><h3>MODERN HOST</h3><p>Pre-configured Lapse and Poops paths for supported firmware versions.</p><span class="route-link">OPEN MODERN HOST ›</span></a>
+        <a class="route-card experimental" id="route-test" href="henweb/index.html"><div class="card-head"><span class="chip chip-warning">03 / EXPERIMENTAL</span><span class="card-arrow">↗</span></div><div class="route-number">14.00</div><h3>EXPERIMENTAL HOST</h3><p>Research-stage route included in this package. Not a verified stable jailbreak.</p><span class="route-link">OPEN TEST MODULE ›</span></a>
+      </div>
+    </section>
+    <footer class="footer"><span>© 2026 LOADING PRO <span class="f-gold">•</span> GAMING &amp; ENTERTAINMENT DEVICES</span><span>Original underlying code attribution and license retained in <a href="LICENSE">LICENSE</a>.</span></footer>
+  </main>
+</div>
+<script src="lp-interface.js"></script>
+</body>
+</html>

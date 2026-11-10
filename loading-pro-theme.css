@@ -1,0 +1,49 @@
+/* LOADING PRO : module visual identity. Do not alter exploit execution logic. */
+:root{--green:#f5be2b;--green-strong:#2cb9ff;--cyan:#35bafb;--lime:#efb92e;--muted:#879fb6;--ink:#050c17;--bg:#050c17;--bg-2:#091624;--panel:#0b1d30;--line:#27435c;--matrix-black:#050b15;--matrix-deep:#0a1a2b;--matrix-green:#f6c33e;--matrix-soft:#e4eef8;--matrix-dim:#8aaabf;--matrix-line:rgba(43,174,241,.19)}
+html,body{background-color:#050b15!important;color:#eaf2fa!important;font-family:Arial,Helvetica,sans-serif}
+body{border-top-color:#f6bb2c!important}
+#shell,#wrap,.shell,.host-shell,.panel,.card{border-color:#2d4a63!important}
+#brand,.brand-name,.brand-copy,.console-brand,.brand-lockup,.eyebrow,.kicker,.console-eyebrow,.section-kicker{color:#f7c140!important}
+#state,#msg,h1{color:#edf5fc}
+#cache,.ok,.cacheok,.cache-status.ready,.status-ok{color:#3bc4ff!important}
+#out,#console,pre{scrollbar-color:#235273 #071421}
+a:focus,button:focus{outline:2px solid #36bdff!important;outline-offset:2px}
+button{font-family:Arial,Helvetica,sans-serif}
+.lp-mini-logo,.lp-wordmark{font-weight:900!important;font-style:italic!important;letter-spacing:1px!important;color:#f0f5fc!important;white-space:nowrap;display:inline-block}
+.lp-mini-logo{font-size:20px;margin:0 12px 0 0}.lp-mini-logo .lp-gold,.lp-wordmark strong{color:#f4bc27}
+.lp-wordmark{font-size:28px;margin:16px 0 5px;padding:12px 17px;border-left:3px solid #2cbafa;background:linear-gradient(90deg,#091c30,transparent)}
+.lp-wordmark small{display:block;margin-top:4px;color:#819fb7;font-size:10px;letter-spacing:2.4px;font-style:normal}
+.ascii-banner{display:none!important}
+.status-dashboard,.host-shell,.main-layout{border-color:#2d4a63}
+.cache-status{color:#b0c4d3}
+.site-footer,.footer{color:#7995a9!important}
+.site-footer a,.footer a{color:#38bbfa}
+#title{color:#f3c23c!important}
+/* Keep original layout positioning for kernel exploit / debug pages. */
+
+/* PS4 legacy entry — Loading Pro blue/gold dashboard */
+body.lp-legacy{background:radial-gradient(ellipse at 50% 0%,#10253b 0%,#050c17 67%)!important;color:#d5e7f5!important;font-family:Arial,Helvetica,sans-serif!important}
+body.lp-legacy h1{color:#e9f3ff!important;letter-spacing:3px!important;font-size:25px!important}
+body.lp-legacy h3{color:#7fcaff!important}
+body.lp-legacy hr{border-top-color:#2c5b7f!important}
+body.lp-legacy .lp-wordmark{border-radius:10px;border:1px solid #285371!important;border-left:4px solid #e9b837!important;box-shadow:0 12px 28px rgba(0,0,0,.24)}
+body.lp-legacy .status-item,body.lp-legacy #kernel-options,body.lp-legacy .autoJb{background:#0a1b2b!important;border-color:#27465e!important;color:#f0c44f!important;border-radius:8px!important;padding:12px 16px!important}
+body.lp-legacy .status-item .label,body.lp-legacy #kernel-options label,body.lp-legacy #autoJbLabel{color:#8facbf!important}
+body.lp-legacy .status-item .value{color:#77c9fa!important}
+body.lp-legacy .status-item .value[data-state=success]{color:#5fdab4!important}
+body.lp-legacy button:not(.cache-locked){background:#dba829!important;border:1px solid #f3c74d!important;color:#061320!important;border-radius:8px!important;font-weight:900!important;box-shadow:0 9px 20px rgba(255,180,20,.1)}
+body.lp-legacy button.cache-locked{border-color:#294354!important;color:#7691a5!important;border-radius:8px!important}
+body.lp-legacy #console{background:#061321!important;color:#9fdcff!important;border-color:#244861!important;border-radius:9px!important}
+body.lp-legacy #console::before{content:"LOADING PRO / SYSTEM CONSOLE"!important;background:#102338!important;color:#f3c147!important;border-color:#2e536b!important}
+body.lp-legacy .media-box img{border-color:#28516b!important;border-radius:10px!important}
+body.lp-legacy #autoJbInput:checked{background:#092943!important;border-color:#3cc4ff!important}
+body.lp-legacy #autoJbInput:checked::before,body.lp-legacy input[type=radio]:checked{background-color:#f4bf35!important;border-color:#f4bf35!important}
+body.lp-legacy .change-firmware{border-color:#286f9b!important;color:#71c9ff!important;border-radius:7px!important}
+body.lp-legacy .cursor,body.lp-legacy .progress-bar-fill{background:#3dbdf7!important}
+body.lp-legacy .log-info,body.lp-legacy .log-system{color:#80cfff!important}
+body.lp-legacy .log-success{color:#62e5ae!important}
+body.lp-legacy .footer-label{color:#e7b833!important}body.lp-legacy .footer-value{color:#8fc5e3!important}
+body.lp-modern{background-color:#050b15!important;color:#eaf2fa!important}
+body.lp-modern #wrap,body.lp-modern .shell{border-color:#2c506c!important;background-color:rgba(9,25,42,.93)!important}
+body.lp-modern .brand-name,body.lp-modern .eyebrow{color:#f3bb35!important}
+body.lp-modern #state{color:#edf5fc!important}

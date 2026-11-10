@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en" manifest="cache-ps5.appcache">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#07120e">
+  <link rel="icon" type="image/png" href="../11/logo.png">
+  <link rel="stylesheet" href="main.css?v=final">
+  <title>LOADING PRO — PS5 Host</title>
+<link rel="stylesheet" href="../loading-pro-theme.css">
+</head>
+<body class="lp-ps5">
+  <main class="host-shell">
+    <header class="site-header">
+      <div class="brand-lockup">
+        <img src="../11/logo.png" alt="Logo LOADING PRO">
+        <div>
+          <div class="eyebrow">LOADING PRO // HOST PS5</div>
+          <h1>PS5 SlopKit Host</h1>
+        </div>
+      </div>
+      <div class="firmware-readout">
+        <span class="readout-label">DETECTED FIRMWARE</span>
+        <strong id="current-fw">Unknown</strong>
+      </div>
+    </header>
+
+    <section class="intro-band" aria-labelledby="page-title">
+      <div>
+        <span class="section-kicker">PS5 / 9.00 - 12.00</span>
+        <h2 id="page-title">Select operation</h2>
+        <p id="top-bar-text">Console firmware is checked before starting the process.</p>
+      </div>
+      <span class="status-chip"><span class="status-dot"></span> HOST READY</span>
+    </section>
+
+    <div id="cache-status" class="cache-status" role="status">Preparing offline cache...</div>
+
+    <div id="main-content">
+    <div id="pre-jb-view" class="selected">
+      <a tabindex="0" class="action-card primary-action" id="run-jb"
+         href="slopkit/poops.html?go=1&amp;auto=1&amp;production=1&amp;trigger=netcontrol&amp;attempts=8&amp;only=ps0_preflight,ps1_prepare,ps3_stage0,ps4_validate,ps5_stage1,ps6_stage2,ps8_stage3,ps9_stage4,ps10_stage5&amp;log=debug&amp;payload=1&amp;v=final">Jailbreak</a>
+      <a tabindex="0" class="action-card secondary-action" id="run-sender"
+         href="slopkit/poops.html?go=1&amp;auto=1&amp;production=1&amp;trigger=netcontrol&amp;attempts=8&amp;only=ps0_preflight,ps1_prepare,ps3_stage0,ps4_validate,ps5_stage1,ps6_stage2,ps8_stage3,ps9_stage4,ps10_stage5&amp;log=debug&amp;payload=1&amp;reuse=1&amp;v=final">Payload Sender</a>
+    </div>
+    </div>
+
+    <footer class="site-footer">
+      <div class="footer-info"><span class="footer-label">[HOST]</span><span class="footer-value">LOADING PRO / WEB HOST</span></div>
+      <div class="footer-info"><span class="footer-label">[SUPPORT]</span><span class="footer-value">OFFICIAL LOADING PRO INTERFACE</span></div>
+      <div class="footer-info"><span class="footer-label">[COPYRIGHT]</span><span class="footer-value">© 2026 LOADING PRO · Source credits in LICENSE</span></div>
+      <div class="footer-info"><span class="footer-label">[CREDITS]</span><span class="footer-value">Original author: Ibrahim Yusuf</span></div>
+    </footer>
+  </main>
+
+  <script>
+    (function () {
+      var status = document.getElementById("cache-status");
+      var runJb = document.getElementById("run-jb");
+      var runSender = document.getElementById("run-sender");
+      function setStatus(t, cls) { status.textContent = t; status.className = "cache-status" + (cls ? " " + cls : ""); }
+      function lockCards() { if (runJb) runJb.classList.add("cache-locked"); if (runSender) runSender.classList.add("cache-locked"); }
+      function unlockCards() { if (runJb) runJb.classList.remove("cache-locked"); if (runSender) runSender.classList.remove("cache-locked"); }
+      lockCards();
+
+      function firmwareMatch() {
+        try {
+          var m = /PlayStation 5\/(\d+\.\d+)/.exec(navigator.userAgent);
+          if (m) document.getElementById("current-fw").textContent = m[1];
+          else document.getElementById("current-fw").textContent = "Not detected";
+        } catch (e) {}
+      }
+      firmwareMatch();
+      try { document.getElementById("run-jb").focus(); } catch (e) {}
+
+      var ac = window.applicationCache;
+      function cacheIsReady() {
+        if (!ac) return false;
+        if (ac.status === ac.UNCACHED || ac.status === ac.OBSOLETE) return false;
+        try { if (typeof ac.length === "number" && ac.length === 0) return false; } catch (e) {}
+        return ac.status === ac.IDLE || ac.status === ac.UPDATEREADY;
+      }
+      function enableActions() {
+        unlockCards();
+        setStatus("Cache ready — you can begin", "ready");
+      }
+
+      if (!ac || !document.documentElement.hasAttribute("manifest")) {
+        unlockCards();
+        setStatus("Automatic cache is unavailable in this browser", "");
+      } else if (!navigator.onLine) {
+        if (cacheIsReady()) enableActions();
+        else { setStatus("Offline cache is empty — connect to the internet once", "failed"); }
+      } else if (cacheIsReady()) {
+        enableActions();
+      } else if (ac.status === ac.UPDATEREADY) {
+        try { ac.swapCache(); } catch (e) {}
+        enableActions();
+      } else {
+        setStatus("Saving host cache...", "");
+        ac.addEventListener("downloading", function () { setStatus("Downloading cache...", ""); }, false);
+        ac.addEventListener("progress", function (e) {
+          if (e && e.total) setStatus("Downloading cache: " + Math.round((e.loaded / e.total) * 100) + "%", "");
+        }, false);
+        ac.addEventListener("cached", function () {
+          try { ac.swapCache(); } catch (e) {}
+          enableActions();
+        }, false);
+        ac.addEventListener("updateready", function () {
+          try { ac.swapCache(); } catch (e) {}
+          enableActions();
+        }, false);
+        ac.addEventListener("noupdate", function () {
+          if (cacheIsReady()) enableActions();
+          else { setStatus("Cache is still empty", "failed"); }
+        }, false);
+        ac.addEventListener("error", function () {
+          setStatus("Cache download failed — reload with an internet connection", "failed");
+        }, false);
+        ac.addEventListener("obsolete", function () {
+          setStatus("Cache is obsolete", "failed");
+        }, false);
+      }
+    })();
+  </script>
+</body>
+</html>

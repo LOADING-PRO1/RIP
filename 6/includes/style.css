@@ -1,0 +1,299 @@
+* { box-sizing: border-box; }
+body {
+    background: #0a0a0a;
+    color: #c0c0c0;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+    font-family: 'Courier New', 'Consolas', monospace;
+    min-height: 100vh;
+}
+
+.change-firmware {
+    display: inline-block;
+    margin: 6px 0 14px;
+    padding: 8px 12px;
+    border: 1px solid #00ff41;
+    color: #00ff41;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-decoration: none;
+}
+.change-firmware:focus { background: #1a2a1a; outline: none; }
+
+h1 {
+    color: #00ff41;
+    font-size: 22px;
+    margin: 10px 0 5px;
+    text-transform: uppercase;
+    letter-spacing: 6px;
+}
+h3 {
+    color: #00d4ff;
+    font-size: 13px;
+    font-weight: normal;
+    margin: 5px 0 10px;
+    letter-spacing: 1px;
+}
+
+.ascii-banner {
+    color: #00ff41;
+    font-size: 10px;
+    line-height: 1.1;
+    margin: 5px auto;
+    text-align: center;
+    white-space: pre;
+    font-family: 'Courier New', monospace;
+    opacity: 0.85;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid #00ff41;
+    margin: 10px auto;
+    width: 90%;
+    opacity: 0.5;
+}
+
+.status-dashboard {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin: 10px auto 15px;
+    max-width: 700px;
+}
+.status-item {
+    background: #0a1a0a;
+    border: 1px solid #1a3a1a;
+    padding: 6px 14px;
+    font-size: 11px;
+    color: #00ff41;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-radius: 2px;
+}
+.status-item .label { color: #556b55; margin-right: 6px; }
+.status-item .value { color: #00d4ff; }
+.status-item .value[data-state="success"] { color: #00ff41; }
+.status-item .value[data-state="warn"] { color: #ffb000; animation: blink 1s step-end infinite; }
+.status-item .value[data-state="error"] { color: #ff0033; }
+.status-item .value[data-state="idle"] { color: #556b55; }
+
+.cache-status {
+    min-height: 22px;
+    margin: 12px auto;
+    color: #88aa88;
+    font-size: 12px;
+    letter-spacing: 1px;
+}
+.cache-status.ready { color: #00ff41; }
+.cache-status.failed { color: #ff897d; }
+
+button.cache-locked {
+    color: #335533;
+    border-color: #1f3a26;
+    cursor: not-allowed;
+    background: transparent;
+}
+
+.btn-container {
+    margin: 15px 0 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+#kernel-options {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: #0a1a0a;
+    border: 1px solid #1a3a1a;
+    padding: 8px 14px;
+    border-radius: 3px;
+}
+
+input[type="radio"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    border: 2px solid #335533;
+    border-radius: 50%;
+    background-color: #111;
+    cursor: pointer;
+    margin: 0;
+}
+input[type="radio"]:checked { border-color: #00ff41; background-color: #00ff41; }
+
+#kernel-options label {
+    color: #88aa88;
+    font-size: 12px;
+    margin-right: 10px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+#kernel-options label:focus { color: #00ff41; outline: none; }
+
+button {
+    background: transparent;
+    color: #00ff41;
+    border: 1px solid #00ff41;
+    padding: 10px 30px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: 'Courier New', monospace;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+button:focus { background: #1a2a1a; outline: none; }
+button:disabled {
+    background: transparent;
+    border-color: #553333;
+    color: #553333;
+    cursor: not-allowed;
+}
+
+.autoJb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #0a1a0a;
+    border: 1px solid #1a3a1a;
+    padding: 8px 14px;
+    border-radius: 3px;
+}
+#autoJbLabel {
+    color: #88aa88;
+    font-size: 11px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+#autoJbInput {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 36px;
+    height: 18px;
+    background: #1a1a1a;
+    border: 1px solid #335533;
+    border-radius: 9px;
+    cursor: pointer;
+    position: relative;
+    margin: 0;
+}
+#autoJbInput:checked { background: #1a2a1a; border-color: #00ff41; }
+#autoJbInput::before {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 12px;
+    height: 12px;
+    background: #553333;
+    border-radius: 50%;
+}
+#autoJbInput:checked::before { left: 20px; background: #00ff41; }
+
+.main-layout {
+    width: 96%;
+    margin: 0 auto;
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+}
+.media-box { width: 25%; min-width: 180px; text-align: center; }
+.media-box img { width: 90%; height: auto; border: 1px solid #1a3a1a; border-radius: 2px; }
+
+#console {
+    width: 70%;
+    background: #050505;
+    color: #00ff41;
+    font-size: 13px;
+    text-align: left;
+    height: 320px;
+    overflow-y: scroll;
+    word-wrap: break-word;
+    border: 1px solid #1a3a1a;
+    border-radius: 3px;
+    font-family: 'Courier New', 'Consolas', monospace;
+    line-height: 1.5;
+}
+#console::before {
+    content: "TERMINAL v4.0.1 [PS4 EXPLOIT]";
+    display: block;
+    background: #0d1a0d;
+    color: #00ff41;
+    font-size: 10px;
+    padding: 5px 12px;
+    border-bottom: 1px solid #1a3a1a;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+#console-content { padding: 12px 15px; min-height: 260px; }
+
+#console::-webkit-scrollbar { width: 6px; }
+#console::-webkit-scrollbar-track { background: #0a0a0a; }
+#console::-webkit-scrollbar-thumb { background: #1a3a1a; }
+
+.cursor {
+    display: inline-block;
+    width: 8px;
+    height: 14px;
+    background: #00ff41;
+    animation: blink 1s step-end infinite;
+    vertical-align: text-bottom;
+    margin-left: 2px;
+}
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+.progress-bar-container {
+    width: 100%;
+    height: 3px;
+    background: #0d1a0d;
+    margin: 8px 0;
+    border-radius: 2px;
+    overflow: hidden;
+}
+.progress-bar-fill { height: 100%; width: 0%; background: #00ff41; }
+
+@media (max-width: 768px) {
+    .main-layout { flex-direction: column; align-items: center; }
+    .media-box { width: 50%; margin-bottom: 15px; }
+    #console { width: 100%; }
+    h1 { font-size: 16px; letter-spacing: 3px; }
+    .ascii-banner { font-size: 7px; }
+    .btn-container { flex-direction: column; }
+    .status-dashboard { gap: 8px; }
+    .status-item { font-size: 9px; padding: 4px 10px; }
+}
+
+::selection { background: #1a2a1a; color: #00ff41; }
+
+.log-info { color: #00ff41; }
+.log-warn { color: #ffb000; }
+.log-error { color: #ff0033; }
+.log-success { color: #00ff41; }
+.log-debug { color: #556b55; }
+.log-system { color: #00d4ff; }
+
+.site-footer {
+    margin-top: 30px;
+    padding: 15px 10px;
+    border-top: 1px solid #1a3a1a;
+    color: #556b55;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-align: center;
+}
+.footer-info { margin: 5px 0; }
+.footer-label { color: #00ff41; margin-right: 8px; }
+.footer-value { color: #00d4ff; }

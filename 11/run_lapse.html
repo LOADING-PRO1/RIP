@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" manifest="cache.manifest">
+<head>
+  <link rel="icon" type="image/png" href="logo.png">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LOADING PRO — PS4 Host</title>
+<style>
+  * { box-sizing:border-box; }
+  html, body { height:100%; margin:0; }
+    body { overflow:hidden; background:#050b0c; color:#d7ebe5; font:15px/1.5 "Segoe UI", Arial, sans-serif; }
+    #shell { display:flex; flex-direction:column; height:100%; padding:16px; }
+    #brand { display:flex; align-items:center; padding-bottom:16px; }
+    #brand img { width:40px; height:40px; margin-right:12px; }
+  .brand-copy { line-height:1.05; }
+  .brand-name { display:block; color:#e8fff4; font:800 23px/1 Consolas, "Courier New", monospace; }
+  .brand-sub { display:block; margin-top:4px; color:#70a996; font:10px monospace; }
+  .session { display:none; }
+  #wrap { display:flex; flex:1; flex-direction:column; min-height:0; width:100%; max-width:980px; margin:16px auto 0; }
+  .eyebrow { margin-bottom:8px; color:#46ec9b; font:11px monospace; }
+  #state { margin:0 0 12px; color:#effff7; font-size:23px; font-weight:700; }
+  #out { flex:1; min-height:0; overflow-y:auto; color:#a9c9bc; white-space:pre-wrap; font:12px/1.55 Consolas, "Courier New", monospace; }
+  #out:empty:after { content:"Menyiapkan log eksekusi…"; color:#618276; }
+  .ok { color:#8df2b7; } .bad { color:#ff897d; } .warn { color:#ffd572; }
+  .footer { padding-top:12px; color:#527366; font:10px monospace; text-align:center; }
+  .footer span { color:#39dd91; }
+  @media (max-width:560px) { #state { font-size:18px; } }
+</style>
+<link rel="stylesheet" href="../loading-pro-theme.css">
+</head>
+<body>
+<main id="shell">
+  <header id="brand"><span class="lp-mini-logo">LOADING <span class="lp-gold">PRO</span></span><div class="brand-copy"><span class="brand-name">LOADING PRO</span><span class="brand-sub">LAPSE CHAIN · EXECUTION CONSOLE</span></div><span class="session">[ CHAIN ACTIVE ]</span></header>
+  <section id="wrap" aria-live="polite"><div class="eyebrow">EXECUTION LOG / LAPSE</div><div id="state">Loading chain Lapse...</div><div id="out"></div></section>
+  <footer class="footer site-footer">
+    <div class="footer-info"><span class="footer-label">[HOST]</span> <span class="footer-value">LOADING PRO / WEB HOST</span></div>
+    <div class="footer-info"><span class="footer-label">[SUPPORT]</span> <span class="footer-value">OFFICIAL LOADING PRO INTERFACE</span></div>
+    <div class="footer-info"><span class="footer-label">[COPYRIGHT]</span> <span class="footer-value">© 2026 LOADING PRO · Source credits in LICENSE</span></div>
+    <div class="footer-info"><span class="footer-label">[CREDITS]</span> <span class="footer-value">Original author: Ibrahim Yusuf</span></div>
+  </footer>
+</main>
+<script type="module">import "./chain_lapse.js";</script>
+</body>
+</html>

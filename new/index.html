@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" manifest="cache.appcache">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LOADING PRO — PS4 Host</title>
+<style>
+    :root { --ink:#071018; --panel:#101d28; --panel-soft:#142634; --line:#294556;
+            --cyan:#78e6e0; --lime:#d3f36b; --muted:#8ca6b2; --danger:#ff7890; }
+    * { box-sizing:border-box; }
+    html,body { min-height:100%; margin:0; background:var(--ink); color:#e8f5f4;
+                font:15px/1.5 "Trebuchet MS", sans-serif; }
+    body { position:relative; overflow-x:hidden; }
+    body:before { position:fixed; inset:0; pointer-events:none; content:"";
+                  background:radial-gradient(circle at 15% 10%, rgba(120,230,224,.12), transparent 30%),
+                              linear-gradient(135deg, #071018 0%, #0b1720 55%, #132a31 100%); }
+    body:after { position:fixed; inset:0; pointer-events:none; content:""; opacity:.22;
+                 background-image:linear-gradient(rgba(120,230,224,.08) 1px, transparent 1px),
+                                   linear-gradient(90deg, rgba(120,230,224,.08) 1px, transparent 1px);
+                 background-size:48px 48px; mask-image:linear-gradient(to bottom, black, transparent 80%); }
+    #brand { position:relative; z-index:1; display:flex; align-items:center; gap:14px;
+             max-width:720px; margin:0 auto; padding:28px 24px 22px; border-bottom:1px solid var(--line); }
+    #brand img { width:42px; height:42px; border:1px solid var(--cyan); border-radius:12px; filter:saturate(.8); }
+    #brand b { display:block; color:var(--cyan); font:700 25px/1 "Trebuchet MS",sans-serif; letter-spacing:.18em; }
+    #brand:after { content:"FIRMWARE ROUTER / 01"; margin-left:auto; color:var(--muted); font:10px "Courier New",monospace; letter-spacing:.12em; }
+    #wrap { position:relative; z-index:1; max-width:720px; margin:42px auto; padding:32px;
+            border:1px solid var(--line); border-radius:18px; background:rgba(16,29,40,.92);
+            box-shadow:0 22px 70px rgba(0,0,0,.28); }
+    #wrap:before { display:block; margin-bottom:24px; content:"LOADING PRO / MODERN HOST"; color:var(--lime);
+                   font:11px "Courier New",monospace; letter-spacing:.18em; }
+    #state { margin:0 0 12px; color:#f3fbf8; font-size:clamp(24px,5vw,38px); line-height:1.05;
+             font-weight:700; letter-spacing:-.02em; }
+    #state:before { content:"●"; margin-right:10px; color:var(--lime); font-size:.55em; vertical-align:middle; }
+    #det { display:inline-block; margin:0 0 20px; padding:7px 10px; border:1px solid #375768;
+           border-radius:7px; color:var(--muted); font:12px "Courier New",monospace; }
+    #det b { color:var(--cyan); font-weight:700; }
+    #cache { min-height:22px; padding-top:18px; border-top:1px solid rgba(140,166,178,.2);
+             color:var(--muted); font:12px "Courier New",monospace; }
+    #cache.cacheok { color:var(--lime); }
+    .bad { color:var(--danger)!important; } .warn { color:var(--lime)!important; }
+    @media (max-width:560px) { #brand { padding:22px 16px 18px; } #brand:after { display:none; }
+      #wrap { margin:26px 14px; padding:24px 20px; } }
+</style>
+<link rel="stylesheet" href="../loading-pro-theme.css">
+</head>
+<body class="lp-modern">
+<div id="brand"><span class="lp-mini-logo">LOADING <span class="lp-gold">PRO</span></span><b>LOADING PRO</b></div>
+<div id="wrap">
+  <div id="state">detecting firmware...</div>
+  <div id="det"></div>
+  <div id="cache"></div>
+</div>
+
+<script>
+(function () {
+    var stateEl = document.getElementById("state");
+    var detEl = document.getElementById("det");
+    var cacheEl = document.getElementById("cache");
+    function setState(t, c) { stateEl.textContent = t; stateEl.className = c || ""; }
+    function setCache(t, ok) { cacheEl.textContent = t; cacheEl.className = ok ? "cacheok" : ""; }
+    var params = new URLSearchParams(location.search);
+
+    // Keep this list in sync with the firmware tables and patch files shipped
+    // with this folder. The PS4 reports the minor as hexadecimal in its UA.
+    var SUPPORTED = {
+        1150: 1, 1152: 1, 1200: 1, 1202: 1, 1250: 1, 1252: 1,
+        1300: 1, 1302: 1, 1304: 1, 1350: 1, 1352: 1
+    };
+
+    var key = null, fwnum = null;
+    var m = /PlayStation\s+4[\/ ](\d+)\.(\d+)/.exec(navigator.userAgent);
+    if (m) {
+        var ms = parseInt(m[2], 16).toString(16);
+        if (ms.length < 2) ms = "0" + ms;
+        key = m[1] + "." + ms;
+        fwnum = parseInt(m[1], 10) * 100 + parseInt(ms, 10);
+    }
+
+    var forced = params.get("force") === "1";
+    var supported = forced || (fwnum !== null && SUPPORTED[fwnum] === 1);
+    detEl.innerHTML = "firmware <b>" + (key || "unknown") + "</b>"
+        + (supported ? " &middot; <b>supported</b>"
+                     : " &middot; not in this build's kernel table");
+
+    var target = "jb.html" + location.search;
+    function go() { setState("loading jailbreak...", "warn"); location.replace(target); }
+
+    if (!supported) {
+        setState("UNSUPPORTED FIRMWARE", "bad");
+        return;
+    }
+
+    var redirected = false;
+    function runOnce() {
+        if (redirected) return;
+        redirected = true;
+        go();
+    }
+
+    var ac = window.applicationCache;
+    window.setTimeout(runOnce, 3000);
+    if (!ac || !document.documentElement.hasAttribute("manifest")) {
+        go();
+    } else if (!navigator.onLine) {
+        setCache("offline -- from cache", true);
+        go();
+    } else if (ac.status === ac.IDLE) {
+        setCache("cached", true);
+        go();
+    } else if (ac.status === ac.UPDATEREADY) {
+        try { ac.swapCache(); } catch (e) {}
+        setCache("update downloaded", true);
+        runOnce();
+    } else {
+        setCache("checking cache...");
+        ac.addEventListener("downloading",
+            function () { setCache("caching for offline (first run)..."); }, false);
+        ac.addEventListener("progress", function (e) {
+            if (e && e.total)
+                setCache("caching " + Math.round((e.loaded / e.total) * 100) + "%");
+        }, false);
+        ac.addEventListener("cached", function () {
+            setCache("cached for offline use", true);
+            runOnce();
+        }, false);
+        ac.addEventListener("updateready", function () {
+            try { ac.swapCache(); } catch (e) {}
+            setCache("update downloaded", true);
+            runOnce();
+        }, false);
+        ac.addEventListener("noupdate", function () {
+            setCache("cached -- offline ready", true);
+            go();
+        }, false);
+        ac.addEventListener("error", function () {
+            setCache("cache unavailable");
+            runOnce();
+        }, false);
+        ac.addEventListener("obsolete", function () {
+            setCache("cache obsolete");
+            runOnce();
+        }, false);
+    }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en" manifest="cache.appcache">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" href="logo.png">
+<title>LOADING PRO — PS4 Host</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+html,body{
+  margin:0;
+  min-height:100%;
+}
+
+body{
+  background:#050b0c;
+  color:#d7ebe5;
+  font:14px/1.5 Arial,sans-serif;
+  overflow:hidden;
+}
+
+#shell{
+  min-height:100vh;
+  padding:16px;
+  display:flex;
+  flex-direction:column;
+}
+
+#brand{
+  display:flex;
+  align-items:center;
+  padding-bottom:14px;
+}
+
+#brand img{
+  width:40px;
+  height:40px;
+  margin-right:10px;
+}
+
+.brand-name{
+  display:block;
+  color:#e8fff4;
+  font:bold 24px Consolas,monospace;
+}
+
+.brand-sub{
+  display:block;
+  margin-top:4px;
+  color:#70a996;
+  font:10px Consolas,monospace;
+  line-height:1.4;
+}
+
+#wrap{
+  width:100%;
+  max-width:760px;
+  margin:auto;
+}
+
+.eyebrow{
+  margin-bottom:7px;
+  color:#46ec9b;
+  font:11px Consolas,monospace;
+}
+
+#state{
+  margin:0 0 10px;
+  color:#effff7;
+  font-size:28px;
+  font-weight:bold;
+}
+
+#det{
+  color:#92b7a9;
+  font-size:13px;
+}
+
+#det b{
+  color:#e0fff0;
+}
+
+.change-choice{
+  display:inline-block;
+  margin-top:12px;
+  color:#8df2b7;
+  font:11px Consolas,monospace;
+  text-decoration:none;
+}
+
+.change-choice:hover{
+  color:#46ec9b;
+}
+
+.footer{
+  padding-top:14px;
+  color:#527366;
+  font:10px/1.7 Consolas,monospace;
+  text-align:center;
+}
+
+.footer-info{
+  display:inline;
+}
+
+.footer-info + .footer-info:before{
+  content:"  ·  ";
+  color:#2f8660;
+}
+
+.footer-value{
+  color:#527366;
+}
+
+@media(max-width:560px){
+  #state{
+    font-size:22px;
+  }
+
+  .brand-name{
+    font-size:21px;
+  }
+
+  .brand-sub{
+    font-size:9px;
+  }
+
+  .footer-info{
+    display:block;
+  }
+
+  .footer-info + .footer-info:before{
+    content:"";
+  }
+}
+</style>
+<link rel="stylesheet" href="../loading-pro-theme.css">
+</head>
+
+<body class="lp-modern">
+
+<main id="shell">
+
+  <header id="brand">
+    <span class="lp-mini-logo">LOADING <span class="lp-gold">PRO</span></span>
+    
+    <div>
+      <span class="brand-name">LOADING PRO</span>
+
+      <span class="brand-sub">
+        PS4 EXPLOIT HOST ·
+        FW 11.00 · 11.50/11.52 ·
+        12.00/12.02 · 12.50/12.52 ·
+        13.00/13.02/13.04
+      </span>
+    </div>
+  </header>
+
+  <section id="wrap">
+
+    <div class="eyebrow">
+      LOADING PRO / SYSTEM CONSOLE
+    </div>
+
+    <h1 id="state">
+      Detecting firmware...
+    </h1>
+
+    <div id="det"></div>
+    <div id="cache"></div>
+
+    <a class="change-choice" href="../index.html?change=1">
+      CHANGE FIRMWARE SELECTION
+    </a>
+
+  </section>
+
+  <footer class="footer">
+
+    <div class="footer-info">
+      [HOST]
+      <span class="footer-value">
+        LOADING PRO / WEB HOST
+      </span>
+    </div>
+
+    <div class="footer-info">
+      [SUPPORT]
+      <span class="footer-value">
+        OFFICIAL LOADING PRO INTERFACE
+      </span>
+    </div>
+
+    <div class="footer-info">
+      [COPYRIGHT]
+      <span class="footer-value">
+        © 2026 LOADING PRO · Source credits in LICENSE
+      </span>
+    </div>
+
+    <div class="footer-info">
+      [CREDITS]
+      <span class="footer-value">
+        Original author: Ibrahim Yusuf
+      </span>
+    </div>
+
+  </footer>
+
+</main>
+<script>
+(function () {
+    var stateEl = document.getElementById("state");
+    var detEl = document.getElementById("det");
+    var cacheEl = document.getElementById("cache");
+    function setState(t, c) { stateEl.textContent = t; stateEl.className = c || ""; }
+    function setCache(t, ok) { cacheEl.textContent = t; cacheEl.className = ok ? "cacheok" : ""; }
+    var params = new URLSearchParams(location.search);
+
+    var key = null, fwnum = null;
+    var m = /PlayStation\s+4[\/ ](\d+)\.(\d+)/.exec(navigator.userAgent);
+    if (m) {
+        var minor = parseInt(m[2], 16);
+        var ms = minor.toString(16);
+        if (ms.length < 2) ms = "0" + ms;
+        key = m[1] + "." + ms;
+        fwnum = parseInt(m[1], 10) * 100 + parseInt(ms, 10);
+    }
+    var bug = null, why = "";
+    var forced = params.get("bug");
+    if (forced === "lapse" || forced === "poops") {
+        bug = forced; why = "forced via ?bug=" + forced;
+    } else if (!key) {
+        why = "";
+    } else if (fwnum <= 1202) {
+        bug = "lapse"; why = key + " <= 12.02";
+    } else if (fwnum >= 1250) {
+        bug = "poops"; why = key + " >= 12.50";
+    } else {
+        why = key + " -- no working bug (lapse ends at 12.02, poops needs 12.50)";
+    }
+    detEl.innerHTML = "status: <b>" + (key || "firmware not detected") + "</b>"
+        + " &middot; status: <b>" + (bug || "incompatible firmware") + "</b> &middot; " + why;
+
+    if (!bug) { setState("UNSUPPORTED FIRMWARE", "bad"); return; }
+
+    var target = (bug === "lapse" ? "run_lapse.html" : "run_poops.html")
+        + location.search;
+    var redirected = false;
+    function go() {
+      if (redirected) return;
+      redirected = true;
+      setState("loading " + bug + " chain...", "warn");
+      location.replace(target);
+    }
+
+    var ac = window.applicationCache;
+    var redirectTimer = window.setTimeout(go, 3000);
+    if (!ac || !document.documentElement.hasAttribute("manifest")) {
+        go();
+    } else if (!navigator.onLine) {
+        setCache("offline -- from cache", true);
+        go();
+    } else if (ac.status === ac.IDLE) {
+        setCache("cached", true);
+        go();
+    } else if (ac.status === ac.UPDATEREADY) {
+        try { ac.swapCache(); } catch (e) {}
+        setCache("update downloaded", true);
+        go();
+    } else {
+        setCache("checking cache...");
+        ac.addEventListener("downloading",
+            function () { setCache("caching for offline (first run)..."); }, false);
+        ac.addEventListener("progress", function (e) {
+            if (e && e.total)
+                setCache("caching " + Math.round((e.loaded / e.total) * 100) + "%");
+        }, false);
+
+        ac.addEventListener("cached", function () {
+            setCache("cached for offline use", true);
+          go();
+        }, false);
+        ac.addEventListener("updateready", function () {
+            try { ac.swapCache(); } catch (e) {}
+            setCache("update downloaded", true);
+          go();
+        }, false);
+
+        ac.addEventListener("noupdate", function () {
+            setCache("cached -- offline ready", true);
+            go();
+        }, false);
+        ac.addEventListener("error", function () {
+            setCache("cache unavailable");
+          go();
+        }, false);
+        ac.addEventListener("obsolete", function () {
+            setCache("cache obsolete");
+          go();
+        }, false);
+    }
+})();
+</script>
+</body>
+</html>

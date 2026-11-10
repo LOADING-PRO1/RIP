@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" manifest="cache-ps4-legacy.appcache">
+<head>
+  <link rel="icon" type="image/png" href="../11/logo.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LOADING PRO — PS4 Host</title>
+  <link rel="stylesheet" href="includes/style.css">
+<link rel="stylesheet" href="../loading-pro-theme.css">
+</head>
+<body class="lp-legacy">
+
+<!-- ASCII Banner -->
+  <div class="lp-wordmark">LOADING <strong>PRO</strong><small>PS4 LEGACY HOST</small></div>
+
+  <h1 data-text="LOADING PRO / PS4 HOST">LOADING PRO / PS4 HOST</h1>
+  <h3 id="UA">> Running on:</h3>
+
+  <div id="cache-status" class="cache-status" role="status">Preparing offline cache...</div>
+
+  <!-- Status Dashboard -->
+  <div class="status-dashboard">
+    <div class="status-item">
+      <span class="label">[SYS]</span>
+      <span class="value" id="sys-status">INITIALIZING</span>
+    </div>
+    <div class="status-item">
+      <span class="label">[EXPLOIT]</span>
+      <span class="value" id="exploit-status">READY</span>
+    </div>
+    <div class="status-item">
+      <span class="label">[UPTIME]</span>
+      <span class="value" id="uptime-display">00:00:00</span>
+    </div>
+    <div class="status-item">
+      <span class="label">[CONN]</span>
+      <span class="value" id="conn-status">SECURE</span>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="btn-container">
+    <form id="kernel-options">
+      <input type="radio" name="kernel" id="netctrl-exploit" value="netctrl">
+      <label for="netctrl-exploit">NetCtrl</label>
+      <input type="radio" name="kernel" id="lapse-exploit" value="lapse">
+      <label for="lapse-exploit">Lapse</label>
+    </form>
+    <button id="jeilbrek">> Launch Jailbreak</button>
+    <div class="autoJb">
+      <label for="autoJbInput" id="autoJbLabel">Auto Jailbreak</label>
+      <input id="autoJbInput" type="checkbox">
+    </div>
+  </div>
+
+  <div class="main-layout">
+    <div class="media-box">
+      <img src="includes/ps.jpg" alt="PS4 Console">
+    </div>
+
+    <pre id="console"><div id="console-content"><span class="log-system">[SYSTEM] Terminal siap. Menunggu eksekusi...</span><span class="cursor"></span></div>
+  </pre>
+
+  </div>
+
+  <p><a class="change-firmware" href="../index.html?change=1">[ CHANGE FIRMWARE SELECTION ]</a></p>
+
+  <footer class="site-footer">
+    <div class="footer-info">
+      <span class="footer-label">[HOST]</span>
+      <span class="footer-value">LOADING PRO / WEB HOST</span>
+    </div>
+    <div class="footer-info">
+      <span class="footer-label">[SUPPORT]</span>
+      <span class="footer-value">OFFICIAL LOADING PRO INTERFACE</span>
+    </div>
+    <div class="footer-info">
+      <span class="footer-label">[COPYRIGHT]</span>
+      <span class="footer-value">© <span id="footer-year"></span> B41M 17PlayBox</span>
+    </div>
+    <div class="footer-info">
+      <span class="footer-label">[CREDITS]</span>
+      <span class="footer-value">Original author: Ibrahim Yusuf</span>
+    </div>
+  </footer>
+
+  <script src="src/main.js"></script>
+  <script src="includes/script.js"></script>
+  <script>
+    (function () {
+      var status = document.getElementById("cache-status");
+      var btn = document.getElementById("jeilbrek");
+      function setStatus(t, cls) { status.textContent = t; status.className = "cache-status" + (cls ? " " + cls : ""); }
+      function lockBtn() { if (btn) btn.classList.add("cache-locked"); }
+      function unlockBtn() { if (btn) btn.classList.remove("cache-locked"); }
+      lockBtn();
+
+      var ac = window.applicationCache;
+      function cacheIsReady() {
+        if (!ac) return false;
+        if (ac.status === ac.UNCACHED || ac.status === ac.OBSOLETE) return false;
+        try { if (typeof ac.length === "number" && ac.length === 0) return false; } catch (e) {}
+        return ac.status === ac.IDLE || ac.status === ac.UPDATEREADY;
+      }
+      function enable() { unlockBtn(); setStatus("Cache ready — you can begin", "ready"); }
+
+      if (!ac || !document.documentElement.hasAttribute("manifest")) {
+        unlockBtn();
+        setStatus("Automatic cache is unavailable in this browser", "");
+      } else if (!navigator.onLine) {
+        if (cacheIsReady()) enable();
+        else setStatus("Offline cache is empty — connect to the internet once", "failed");
+      } else if (cacheIsReady()) {
+        enable();
+      } else if (ac.status === ac.UPDATEREADY) {
+        try { ac.swapCache(); } catch (e) {}
+        enable();
+      } else {
+        setStatus("Saving host cache...", "");
+        ac.addEventListener("downloading", function () { setStatus("Downloading cache...", ""); }, false);
+        ac.addEventListener("progress", function (e) {
+          if (e && e.total) setStatus("Downloading cache: " + Math.round((e.loaded / e.total) * 100) + "%", "");
+        }, false);
+        ac.addEventListener("cached", function () {
+          try { ac.swapCache(); } catch (e) {}
+          enable();
+        }, false);
+        ac.addEventListener("updateready", function () {
+          try { ac.swapCache(); } catch (e) {}
+          enable();
+        }, false);
+        ac.addEventListener("noupdate", function () {
+          if (cacheIsReady()) enable();
+          else setStatus("Cache is still empty", "failed");
+        }, false);
+        ac.addEventListener("error", function () {
+          setStatus("Cache download failed — reload with an internet connection", "failed");
+        }, false);
+        ac.addEventListener("obsolete", function () {
+          setStatus("Cache is obsolete", "failed");
+        }, false);
+      }
+    })();
+  </script>
+</body>
+
+</html>
